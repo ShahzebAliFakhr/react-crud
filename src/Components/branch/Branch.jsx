@@ -54,7 +54,6 @@ const Branch = () => {
             const res = await createBranch(addData);
             if (res.status = 200) {
                 await Data();
-                setAddData({ name: "", company: "", email: "", phone: "", city: "" });
             }
         } catch (error) {
             console.error("Error creating data:", error);
