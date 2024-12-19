@@ -11,4 +11,22 @@ table th, table td {
 .freeze-table {
   height: 300px;
 }
+
+/* Add animation class */
+.delete-item {
+  animation: slideOut 0.5s ease forwards;
+}
+
+/* Define animation keyframes */
+@keyframes slideOut {
+  from {
+      transform: translateX(0);
+      opacity: 1;
+  }
+  to {
+      transform: translateX(-100%);
+      opacity: 0;
+  }
+}
+
   

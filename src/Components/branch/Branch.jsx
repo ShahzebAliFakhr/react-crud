@@ -21,20 +21,19 @@ const Branch = () => {
         }
     };
 
-
     // Create Item
     const [cShow, setCshow] = useState(false);
     const createClose = () => setCshow(false);
-        const createShow = () => {
-            setAddData({
-                name: "",
-                company: "",
-                email: "",
-                phone: "",
-                city: ""
-            });            
-            setCshow(true);
-        }
+    const createShow = () => {
+        setAddData({
+            name: "",
+            company: "",
+            email: "",
+            phone: "",
+            city: ""
+        });            
+        setCshow(true);
+    }
 
     const [addData, setAddData] = useState({
         name: "",
@@ -104,7 +103,10 @@ const Branch = () => {
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this item?");
         if (!confirmDelete) return;
-
+    
+        const row = document.getElementById(`row-${id}`);
+        row.classList.add('delete-item');
+    
         try {
             const res = await deleteBranch(id);
             if (res.status === 200) {
@@ -113,129 +115,127 @@ const Branch = () => {
         } catch (error) {
             console.error("Error deleting data:", error);
         }
-    }
+    };
     
-
+    
     useEffect(() => {
         Data();
     },[]);
 
-
   return (
     <>
       <div className="container-fluid">
-            <div className='d-flex justify-content-between'>
-                <div>
-                    {/* Page Heading  */}
-                    <h1 className="h3 mb-2 text-gray-800">Branch</h1>
-                </div>
-                <div>
-                    <button className='btn btn-sm btn-success' onClick={createShow}>CREATE</button>
-                </div>
+        <div className='d-flex justify-content-between'>
+            <div>
+                {/* Page Heading  */}
+                <h1 className="h3 mb-2 text-gray-800">Branch</h1>
             </div>
-                {/* DataTales Example  */}
-            <div className="card shadow mb-4">
-                <div className="card-body">
-                    <div className="table-responsive">
-                        <div className='freeze-table'>
-                            <table className="table table-bordered"id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>ID #</th>
-                                        <th>NAME</th>
-                                        <th>COMAPNY</th>
-                                        <th>EMAIL</th>
-                                        <th>PHONE</th>
-                                        <th>CITY</th>
-                                        <th>ACTION</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        data.map((item) => {
-                                            return(
-                                            <tr key={item.id}>
-                                                <td>{item.id}</td>
-                                                <td>
-                                                    <a href='#' onClick={() => editShow(item)}>{item.name}</a>
-                                                </td>
-                                                <td>{item.company}</td>
-                                                <td>{item.email}</td>
-                                                <td>{item.phone}</td>
-                                                <td>{item.city}</td>
-                                                <td>
-                                                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(item.id)}>Delete</button>
-                                                </td>
-                                            </tr>)
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+            <div>
+                <button className='btn btn-sm btn-success' onClick={createShow}>CREATE</button>
+            </div>
+        </div>
+        <div className="card shadow mb-4">
+            <div className="card-body">
+                <div className="table-responsive">
+                    <div className='freeze-table'>
+                        <table className="table table-bordered"id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID #</th>
+                                    <th>NAME</th>
+                                    <th>COMAPNY</th>
+                                    <th>EMAIL</th>
+                                    <th>PHONE</th>
+                                    <th>CITY</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    data.map((item) => {
+                                        return(
+                                        <tr id={`row-${item.id}`} key={item.id}>
+                                            <td>{item.id}</td>
+                                            <td>
+                                                <a href='#' onClick={() => editShow(item)}>{item.name}</a>
+                                            </td>
+                                            <td>{item.company}</td>
+                                            <td>{item.email}</td>
+                                            <td>{item.phone}</td>
+                                            <td>{item.city}</td>
+                                            <td>
+                                                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(item.id)}>Delete</button>
+                                            </td>
+                                        </tr>)
+                                    })
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
         {/* Create Modal */}
-            <Modal show={cShow} onHide={createClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create</Modal.Title>
-                </Modal.Header>
-                <form method='POST' onSubmit={createSubmit}>
-                    <Modal.Body>
-                        <div className="row">
-                            <div className="col-md-8">
-                                <label className="col-form-label">NAME</label>
-                                <input type="text" className="form-control form-control-sm"
-                                name='name'
-                                value={addData.name}
-                                onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className="col-md-4">
-                                <label className="col-form-label">COMAPNY</label>
-                                <input type="text"
-                                className="form-control form-control-sm"
-                                name='company'
-                                value={addData.company}
-                                onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className="col-md-12">
-                                <label className="col-form-label">EMAIL</label>
-                                <input type="text"
-                                className="form-control form-control-sm"
-                                name='email'
-                                value={addData.email}
-                                onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className="col-md-12">
-                                <label className="col-form-label">PHONE</label>
-                                <input type="text"
-                                className="form-control form-control-sm"
-                                name='phone'
-                                value={addData.phone}
-                                onChange={handleInputChange}
-                                />
-                            </div>
-                            <div className="col-md-12">
-                                <label className="col-form-label">CITY</label>
-                                <input type="text"
-                                className="form-control form-control-sm"
-                                name='city'
-                                value={addData.city}
-                                onChange={handleInputChange}
-                                />
-                            </div>
+        <Modal show={cShow} onHide={createClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Create</Modal.Title>
+            </Modal.Header>
+            <form method='POST' onSubmit={createSubmit}>
+                <Modal.Body>
+                    <div className="row">
+                        <div className="col-md-8">
+                            <label className="col-form-label">NAME</label>
+                            <input type="text" className="form-control form-control-sm"
+                            name='name'
+                            value={addData.name}
+                            onChange={handleInputChange}
+                            />
                         </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button type='button' className='btn btn-sm btn-secondary' onClick={createClose}>Close</button>
-                        <button type='submit' className='btn btn-sm btn-primary' onClick={createClose}>Save</button>
-                    </Modal.Footer>
-                </form>
-            </Modal>
+                        <div className="col-md-4">
+                            <label className="col-form-label">COMAPNY</label>
+                            <input type="text"
+                            className="form-control form-control-sm"
+                            name='company'
+                            value={addData.company}
+                            onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className="col-md-12">
+                            <label className="col-form-label">EMAIL</label>
+                            <input type="text"
+                            className="form-control form-control-sm"
+                            name='email'
+                            value={addData.email}
+                            onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className="col-md-12">
+                            <label className="col-form-label">PHONE</label>
+                            <input type="text"
+                            className="form-control form-control-sm"
+                            name='phone'
+                            value={addData.phone}
+                            onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className="col-md-12">
+                            <label className="col-form-label">CITY</label>
+                            <input type="text"
+                            className="form-control form-control-sm"
+                            name='city'
+                            value={addData.city}
+                            onChange={handleInputChange}
+                            />
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button type='button' className='btn btn-sm btn-secondary' onClick={createClose}>Close</button>
+                    <button type='submit' className='btn btn-sm btn-primary' onClick={createClose}>Save</button>
+                </Modal.Footer>
+            </form>
+        </Modal>
 
         {/* Edit Modal */}
         <Modal show={eShow} onHide={editClose}>
