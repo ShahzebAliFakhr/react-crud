@@ -61,7 +61,13 @@ const Branch = () => {
 
     const createSubmit = async (e) => {
         e.preventDefault();
-        await createData();
+        if (!addData.name.trim() || !addData.company.trim()) {
+            alert("Name and Company are required!");
+            return;
+        }else{
+            await createData();
+            createClose();
+        }
     };
 
 
@@ -185,7 +191,7 @@ const Branch = () => {
                 <Modal.Body>
                     <div className="row">
                         <div className="col-md-8">
-                            <label className="col-form-label">NAME</label>
+                            <label className="col-form-label">NAME<span className='text-danger'>*</span></label>
                             <input type="text" className="form-control form-control-sm"
                             name='name'
                             value={addData.name}
@@ -193,7 +199,7 @@ const Branch = () => {
                             />
                         </div>
                         <div className="col-md-4">
-                            <label className="col-form-label">COMAPNY</label>
+                            <label className="col-form-label">COMAPNY<span className='text-danger'>*</span></label>
                             <input type="text"
                             className="form-control form-control-sm"
                             name='company'
@@ -232,7 +238,7 @@ const Branch = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <button type='button' className='btn btn-sm btn-secondary' onClick={createClose}>Close</button>
-                    <button type='submit' className='btn btn-sm btn-primary' onClick={createClose}>Save</button>
+                    <button type='submit' className='btn btn-sm btn-primary'>Save</button>
                 </Modal.Footer>
             </form>
         </Modal>
@@ -303,7 +309,7 @@ const Branch = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <button type='button' className='btn btn-sm btn-secondary' variant="secondary" onClick={editClose}>CLOSE</button>
-                    <button type='submit' className='btn btn-sm btn-primary' variant="primary" onClick={editClose}>UPDATE</button>
+                    <button type='submit' className='btn btn-sm btn-primary' variant="primary">UPDATE</button>
                 </Modal.Footer>
             </form>
         </Modal>
