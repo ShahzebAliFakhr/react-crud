@@ -61,12 +61,13 @@ const Branch = () => {
 
     const createSubmit = async (e) => {
         e.preventDefault();
-        if (!addData.name.trim() || !addData.company.trim()) {
-            alert("Name and Company are required!");
-            return;
-        }else{
+        let n = 1;
+        if (addData.name.trim() && addData.company.trim()) {
             await createData();
             createClose();
+        }else{
+            alert("Name and Company are required!");
+            return;
         }
     };
 
